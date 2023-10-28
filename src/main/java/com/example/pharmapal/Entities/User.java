@@ -16,6 +16,7 @@ public class User {
     private int phone;
     private String email;
     private String Type;
+    private String state;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
