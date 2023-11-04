@@ -18,8 +18,7 @@ public class WorkHours {
 
     @ManyToOne
     private Staff staff;
-    @ManyToOne
-    private Shifts shifts;
+
 
 
 }

@@ -1,23 +1,33 @@
 package com.example.pharmapal.Entities;
 
+import com.example.pharmapal.Entities.Enumerations.StaffStates;
+import com.example.pharmapal.Entities.Enumerations.UserTypes;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
 
 @Table(schema = "PharmaPal", name ="Staff" )
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Staff {
     @Id
     private Long id;
     private String username;
     private String password;
-    private String state;
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private StaffStates state;
+    @Enumerated(EnumType.STRING)
+    private UserTypes type;
 
 
-    @OneToOne
+    @OneToOne( cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
     private User user;
@@ -26,7 +36,7 @@ public class Staff {
     @JoinColumn(name = "staff")
     private Set<WorkHours> workHoursSet;
 
-    @ManyToMany
+    @ManyToMany( cascade = CascadeType.ALL)
     @JoinTable(
             name = "StaffShifts",
             joinColumns = @JoinColumn(name = "staffId"),
@@ -34,7 +44,7 @@ public class Staff {
     private Set<Shifts> shifts;
 
 
-    @ManyToMany
+    @ManyToMany(  cascade = CascadeType.ALL)
     @JoinTable(
             name = "StaffPermissions",
             joinColumns = @JoinColumn(name = "staffid"),

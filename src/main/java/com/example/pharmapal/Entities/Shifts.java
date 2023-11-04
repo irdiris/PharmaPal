@@ -17,9 +17,6 @@ public class Shifts {
     @Temporal(TemporalType.TIME)
    private LocalTime shiftEnd;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shifts")
-    private Set<WorkHours> workHoursSet;
 
     @ManyToMany
     private Set<Staff> staff;
