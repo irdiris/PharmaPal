@@ -1,5 +1,6 @@
 package com.example.pharmapal.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,7 +17,8 @@ public class Transactions {
     private Long id;
 
     @ManyToOne
-    private User user;
+    @JsonIgnore
+    private Staff  staff;
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateTime;

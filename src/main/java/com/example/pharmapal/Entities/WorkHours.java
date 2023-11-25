@@ -1,9 +1,8 @@
 package com.example.pharmapal.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,11 +11,13 @@ import java.time.LocalDateTime;
 @Entity
 public class WorkHours {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private LocalDateTime clockIn;
     private LocalDateTime clockOut;
 
     @ManyToOne
+    @JsonIgnore
     private Staff staff;
 
 

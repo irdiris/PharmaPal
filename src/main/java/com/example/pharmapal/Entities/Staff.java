@@ -36,20 +36,19 @@ public class Staff {
     @JoinColumn(name = "staff")
     private Set<WorkHours> workHoursSet;
 
-    @ManyToMany( cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "StaffShifts",
-            joinColumns = @JoinColumn(name = "staffId"),
-            inverseJoinColumns = @JoinColumn(name = "shiftId"))
-    private Set<Shifts> shifts;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "staff")
+    private Set<Staff_Shifts> staffShifts;
 
 
-    @ManyToMany(  cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "StaffPermissions",
             joinColumns = @JoinColumn(name = "staffid"),
             inverseJoinColumns = @JoinColumn(name = "permissionId"))
-private Set<Permissions> permissions;
+            private Set<Permissions> permissions;
 
+    @OneToMany()
+    private Set<Transactions> transactionsSet;
 
 }
