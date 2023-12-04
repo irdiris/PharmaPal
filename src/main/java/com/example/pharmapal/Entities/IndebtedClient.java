@@ -1,5 +1,6 @@
 package com.example.pharmapal.Entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,5 +19,6 @@ public class IndebtedClient {
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
+    @JsonManagedReference("userRefClient")
     private User user;
 }

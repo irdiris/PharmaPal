@@ -3,14 +3,20 @@ package com.example.pharmapal.Entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalTime;
 import java.util.Set;
 
 @Table(schema = "PharmaPal", name = "Shifts")
-@Entity
 @Data
+@Entity
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Shifts {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,8 +26,8 @@ public class Shifts {
     @Temporal(TemporalType.TIME)
    private LocalTime shiftEnd;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shifts")
-    private Set<Staff_Shifts> staffShifts;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "shifts")
+    @JsonIgnore
+    private Set<Staff> staff;
 
 }

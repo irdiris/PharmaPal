@@ -1,7 +1,6 @@
 package com.example.pharmapal.Entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore; // Add this annotation
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,8 +15,9 @@ public class Permissions {
     private Long id;
     private String permission;
 
-    private String Description;
-@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-@JsonIgnore
-     private Set<Staff> staffSet;
+    private String description;
+
+    @ManyToMany(mappedBy = "permissions", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @JsonIgnore
+    private Set<Staff> staffSet;
 }

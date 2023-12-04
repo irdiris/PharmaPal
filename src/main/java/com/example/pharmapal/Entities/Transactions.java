@@ -1,5 +1,6 @@
 package com.example.pharmapal.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,7 +31,7 @@ public class Transactions {
     private Set<PsychotropicDrugSales> psychotropicDrugSales;
 
 
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction")
     private Set<ProductsSold> productsSold;
 
 }
