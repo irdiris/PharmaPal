@@ -1,6 +1,9 @@
 package com.example.pharmapal.Entities;
 
+import com.example.pharmapal.Entities.Enumerations.PermissionsEnum;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore; // Add this annotation
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,11 +12,13 @@ import java.util.Set;
 @Entity
 @Data
 @Table(schema = "PharmaPal", name = "Permissions")
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Permissions {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String permission;
+    @Enumerated(EnumType.STRING)
+    private PermissionsEnum permissions;
 
     private String description;
 

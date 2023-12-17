@@ -2,22 +2,23 @@ package com.example.pharmapal.Entities;
 
 import com.example.pharmapal.Entities.Enumerations.StaffStates;
 import com.example.pharmapal.Entities.Enumerations.UserTypes;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Objects;
 import java.util.Set;
 
-@Table(schema = "PharmaPal", name ="Staff" )
+@Table(schema = "PharmaPal", name = "Staff")
 @Data
 @Entity
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Staff {
     @Id
     private Long id;
@@ -28,8 +29,7 @@ public class Staff {
     @Enumerated(EnumType.STRING)
     private UserTypes type;
 
-
-    @OneToOne( optional = false,cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
     private User user;
@@ -38,11 +38,11 @@ public class Staff {
     @JoinColumn(name = "staff")
     private Set<WorkHours> workHoursSet;
 
-   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "StaffShifts",
-            joinColumns = @JoinColumn(name = "staffid"),
-            inverseJoinColumns = @JoinColumn(name = "shiftId"))
+            joinColumns = @JoinColumn(name = "staffid",foreignKey = @ForeignKey(name = "fk_staff")),
+            inverseJoinColumns = @JoinColumn(name = "shiftId"), foreignKey = @ForeignKey(name = "fk_shifts"))
 
     private Set<Shifts> shifts;
 
@@ -50,11 +50,17 @@ public class Staff {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "StaffPermissions",
-            joinColumns = @JoinColumn(name = "staffid"),
+            joinColumns = @JoinColumn(name = "staffid" ),
             inverseJoinColumns = @JoinColumn(name = "permissionId"))
     private Set<Permissions> permissions;
 
     @OneToMany()
     private Set<Transactions> transactionsSet;
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, state, type);
+    }
 
 }

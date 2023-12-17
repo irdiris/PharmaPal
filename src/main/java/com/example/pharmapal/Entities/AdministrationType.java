@@ -1,9 +1,6 @@
 package com.example.pharmapal.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Set;
@@ -12,6 +9,7 @@ import java.util.Set;
 @Table(schema = "PharmaPal", name = "AdministrationType")
 public class AdministrationType {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String form;

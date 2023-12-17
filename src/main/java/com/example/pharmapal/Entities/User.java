@@ -1,10 +1,13 @@
 package com.example.pharmapal.Entities;
 
+import com.example.pharmapal.Entities.Enumerations.StaffStates;
+import com.example.pharmapal.Entities.Enumerations.UserTypes;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -17,16 +20,28 @@ public class User {
     private String address;
     private double phone;
     private String email;
-    private String Type;
-    private String state;
-    @JsonBackReference("userRefStaff")
+
+    @Enumerated(EnumType.STRING)
+    private StaffStates state;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "userType")
+    private UserTypes type;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    private Staff staff;
     @JsonIgnore
+    private Staff staff;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    @JsonIgnore
     private IndebtedClient indebtedClient;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address, phone, email, state, type);
+    }
+
 
 
 

@@ -1,6 +1,8 @@
 package com.example.pharmapal.Services;
 
 import com.example.pharmapal.Entities.Permissions;
+import com.example.pharmapal.ExceptionHandling.PermissionsExceptionHandling.exceptions.PermissionsNotFoundException;
+import com.example.pharmapal.Interfaces.PermissionsServiceInterface;
 import com.example.pharmapal.Repositories.PermissionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PermissionsService {
+public class PermissionsService implements PermissionsServiceInterface {
 
     private final PermissionsRepository permissionsRepository;
 @Autowired
@@ -19,8 +21,16 @@ public class PermissionsService {
 
     public List<Permissions> getPermissions(){
 
-    return  permissionsRepository.findAll();
+         List<Permissions> permissionsList = permissionsRepository.findAll();
+         if(permissionsList.isEmpty()){
+             throw new PermissionsNotFoundException("permissions not found");
+         }else {
+             return permissionsList;
+         }
+
     }
+
+
 
 
 }

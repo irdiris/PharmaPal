@@ -1,6 +1,7 @@
 package com.example.pharmapal.Services;
 
 import com.example.pharmapal.ExceptionHandling.CommandLineExceptionHandling.Exceptions.PathDoesNotExistException;
+import com.example.pharmapal.Interfaces.DataBaseServiceInterface;
 import com.example.pharmapal.Services.WindowsCliService.DateService;
 import com.example.pharmapal.Services.WindowsCliService.ProcessBuilderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 @Service
-public class DataBaseService {
+public class DataBaseService implements DataBaseServiceInterface {
 
     private final ProcessBuilderService processBuilderService;
    private  final DateService dateService;

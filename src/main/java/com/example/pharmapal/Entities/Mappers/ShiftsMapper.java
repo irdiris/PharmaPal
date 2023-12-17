@@ -13,7 +13,7 @@ public class ShiftsMapper {
     private  final ModelMapper modelMapper = new ModelMapper();
 
 
-    public void mapShiftFromDto(ShiftsDTO shiftsDTO, Shifts shifts){
+    public void mapFromDto(ShiftsDTO shiftsDTO, Shifts shifts){
         modelMapper.map(shiftsDTO, shifts);
     }
 }

@@ -1,7 +1,9 @@
 package com.example.pharmapal.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +19,8 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
 public class Shifts {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,8 +30,8 @@ public class Shifts {
     @Temporal(TemporalType.TIME)
    private LocalTime shiftEnd;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "shifts")
-    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "shifts", fetch = FetchType.LAZY)
+
     private Set<Staff> staff;
 
 }

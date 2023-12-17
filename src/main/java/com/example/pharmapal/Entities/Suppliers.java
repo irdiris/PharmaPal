@@ -21,6 +21,7 @@ public class Suppliers {
    private String website;
    private String address;
    private String email;
+    private String state;
    private int RC; // Registre de commerce
     private int NIF; // numero identification fiscal
     private int NAI; // numero articles d'imposition

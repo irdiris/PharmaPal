@@ -1,6 +1,7 @@
 package com.example.pharmapal.Services.WindowsCliService;
 
 import com.example.pharmapal.ExceptionHandling.CommandLineExceptionHandling.Exceptions.PathDoesNotExistException;
+import com.example.pharmapal.Interfaces.ProcessBuilderServiceInterface;
 import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 @Service
-public class ProcessBuilderService {
+public class ProcessBuilderService implements ProcessBuilderServiceInterface {
 
     Process process;
 

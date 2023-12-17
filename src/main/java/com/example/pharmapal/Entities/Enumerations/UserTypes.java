@@ -4,5 +4,4 @@ public enum UserTypes {
     STAFF,
     ADMIN,
     INDEBTEDCLIENT;
-
 }

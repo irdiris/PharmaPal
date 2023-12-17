@@ -19,6 +19,6 @@ public class IndebtedClient {
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
-    @JsonManagedReference("userRefClient")
+    @JsonManagedReference()
     private User user;
 }
