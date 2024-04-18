@@ -21,8 +21,7 @@ public class User {
     private double phone;
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    private StaffStates state;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "userType")
     private UserTypes type;
@@ -39,7 +38,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, phone, email, state, type);
+        return Objects.hash(id, name, address, phone, email, type);
     }
 
 

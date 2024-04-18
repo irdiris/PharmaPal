@@ -16,17 +16,17 @@ public class Suppliers {
     private Long id;
 
    private String name;
-   private int phone;
-   private int fax;
+   private double phone;
+   private double fax;
    private String website;
    private String address;
    private String email;
     private String state;
-   private int RC; // Registre de commerce
-    private int NIF; // numero identification fiscal
-    private int NAI; // numero articles d'imposition
-    private int NIS; // numero identification static
-    private int RIB; // compte bancaire
+   private double RC; // Registre de commerce
+    private double NIF; // numero identification fiscal
+    private double NAI; // numero articles d'imposition
+    private double NIS; // numero identification static
+    private double RIB; // compte bancaire
 
     @OneToMany(mappedBy = "supplier")
     private Set<Bills> bills;

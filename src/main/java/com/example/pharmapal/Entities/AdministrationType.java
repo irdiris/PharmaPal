@@ -9,7 +9,7 @@ import java.util.Set;
 @Table(schema = "PharmaPal", name = "AdministrationType")
 public class AdministrationType {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "administration_type_seq")
     private Long id;
 
     private String form;

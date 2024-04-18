@@ -1,6 +1,8 @@
 package com.example.pharmapal.Entities;
 
 import com.example.pharmapal.Entities.Compositekeys.StockedProductsKey;
+import com.example.pharmapal.Entities.Enumerations.LendStates;
+import com.example.pharmapal.Entities.Enumerations.StockedProductsState;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -53,6 +55,9 @@ public class StockedProducts {
 
     @Column
     private double tht;
+
+    @Enumerated(EnumType.STRING)
+    private StockedProductsState state;
 
 
     @OneToMany(mappedBy = "stockedProducts")

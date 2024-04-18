@@ -10,14 +10,17 @@ import com.example.pharmapal.ExceptionHandling.TherapeuticClassExceptionHandling
 import com.example.pharmapal.Interfaces.TherapeuticClassServiceInterface;
 import com.example.pharmapal.Repositories.TherapeuticClassRepository;
 import com.example.pharmapal.Requests.TClassRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class TherapeuticClassService implements TherapeuticClassServiceInterface {
 
     private final TherapeuticClassRepository therapeuticClassRepository;
 
     private final TherapeuticClassMapper therapeuticClassMapper;
+    @Autowired
 
     public TherapeuticClassService(TherapeuticClassRepository therapeuticClassRepository, TherapeuticClassMapper therapeuticClassMapper) {
         this.therapeuticClassRepository = therapeuticClassRepository;

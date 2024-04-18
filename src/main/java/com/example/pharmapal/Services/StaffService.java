@@ -91,7 +91,6 @@ public class StaffService implements StaffServiceInterface {
     public String terminateStaff(Staff staff) {
         Staff staffMemberToBeTerminated = staffRepository.findById(staff.getId()).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist."));
         staffMemberToBeTerminated.setState(StaffStates.TERMINATED);
-        staffMemberToBeTerminated.getUser().setState(StaffStates.TERMINATED);
         staffMemberToBeTerminated.getShifts().clear();
         staffRepository.save(staffMemberToBeTerminated);
         return "Employee terminated successfully.";

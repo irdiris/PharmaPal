@@ -16,7 +16,9 @@ public class Products {
     @Column(unique = true)
     private String designation;
 
-    @Column(unique = true)
+
+    private int totalQuantity;
+
     private String dci;
 
     @ManyToOne
@@ -35,18 +37,18 @@ public class Products {
     private String dosage;
 
     private String packaging;
-
+    @Column(nullable = false)
     private Boolean isPsychotropic;
-
+    @Column(nullable = false)
     private Boolean isMonitored;
 
 @OneToMany(mappedBy = "product")
     private Set<StockedProducts> stockedProducts;
 
-@OneToMany(mappedBy = "products")
+
+
+    @OneToMany(mappedBy = "Products")
     private Set<Lends> lends;
-
-
 
 }
 

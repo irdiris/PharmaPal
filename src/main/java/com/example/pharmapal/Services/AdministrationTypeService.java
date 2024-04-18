@@ -3,7 +3,6 @@ package com.example.pharmapal.Services;
 import com.example.pharmapal.Entities.AdministrationType;
 import com.example.pharmapal.Entities.DTOs.AdministrationTypeDTO;
 import com.example.pharmapal.Entities.Mappers.AdministrationTypeMapper;
-import com.example.pharmapal.Entities.TherapeuticClass;
 import com.example.pharmapal.ExceptionHandling.AdministrationTypeExceptionHandling.Exceptions.AdministrationTypeDescriptionAlreadyRegistered;
 import com.example.pharmapal.ExceptionHandling.AdministrationTypeExceptionHandling.Exceptions.AdministrationTypeNameAlreadyRegistered;
 import com.example.pharmapal.ExceptionHandling.AdministrationTypeExceptionHandling.Exceptions.AdministrationTypeNotFound;
@@ -11,20 +10,21 @@ import com.example.pharmapal.ExceptionHandling.AdministrationTypeExceptionHandli
 import com.example.pharmapal.ExceptionHandling.TherapeuticClassExceptionHandling.Exceptions.TClassDescriptionAlreadyRegistered;
 import com.example.pharmapal.ExceptionHandling.TherapeuticClassExceptionHandling.Exceptions.TClassNameAlreadyRegistered;
 import com.example.pharmapal.ExceptionHandling.TherapeuticClassExceptionHandling.Exceptions.TClassNotFound;
-import com.example.pharmapal.ExceptionHandling.TherapeuticClassExceptionHandling.Exceptions.TClassStillReferencedByProducts;
 import com.example.pharmapal.Interfaces.AdministrationTypeServiceInterface;
 import com.example.pharmapal.Repositories.AdministrationTypeRepository;
 import com.example.pharmapal.Requests.AdministrationTypeRequest;
-import com.example.pharmapal.Requests.TClassRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class AdministrationTypeService implements AdministrationTypeServiceInterface {
 
 
     private final AdministrationTypeRepository administrationTypeRepository;
 
     public final AdministrationTypeMapper administrationTypeMapper;
+    @Autowired
 
     public AdministrationTypeService(AdministrationTypeRepository administrationTypeRepository, AdministrationTypeMapper administrationTypeMapper) {
         this.administrationTypeRepository = administrationTypeRepository;
@@ -75,7 +75,7 @@ public class AdministrationTypeService implements AdministrationTypeServiceInter
              administrationTypeRepository.delete(preDeleteAdministrationType);
             return "Class deleted.";
         } else {
-            throw new AdministrationTypeStillReferencedByProducts("there are products that still reference this class, delete them or update the reference.");
+            throw new AdministrationTypeStillReferencedByProducts("there are products that still reference this type, delete them or update the reference.");
         }
     }
 }

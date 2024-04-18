@@ -3,8 +3,13 @@ package com.example.pharmapal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
+@CrossOrigin(origins = "http://localhost:4200")
 public class PharmaPalApplication {
 
 
@@ -13,6 +18,14 @@ public class PharmaPalApplication {
 		SpringApplication.run(PharmaPalApplication.class, args);
 	}
 
-
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/PharmaPal").allowedOrigins("http://localhost:9000");
+			}
+		};
+	}
 
 }

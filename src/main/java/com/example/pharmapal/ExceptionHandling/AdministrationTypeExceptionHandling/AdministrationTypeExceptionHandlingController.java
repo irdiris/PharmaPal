@@ -1,5 +1,9 @@
 package com.example.pharmapal.ExceptionHandling.AdministrationTypeExceptionHandling;
 
+import com.example.pharmapal.ExceptionHandling.AdministrationTypeExceptionHandling.Exceptions.AdministrationTypeDescriptionAlreadyRegistered;
+import com.example.pharmapal.ExceptionHandling.AdministrationTypeExceptionHandling.Exceptions.AdministrationTypeNameAlreadyRegistered;
+import com.example.pharmapal.ExceptionHandling.AdministrationTypeExceptionHandling.Exceptions.AdministrationTypeNotFound;
+import com.example.pharmapal.ExceptionHandling.AdministrationTypeExceptionHandling.Exceptions.AdministrationTypeStillReferencedByProducts;
 import com.example.pharmapal.ExceptionHandling.TherapeuticClassExceptionHandling.Exceptions.TClassDescriptionAlreadyRegistered;
 import com.example.pharmapal.ExceptionHandling.TherapeuticClassExceptionHandling.Exceptions.TClassNameAlreadyRegistered;
 import com.example.pharmapal.ExceptionHandling.TherapeuticClassExceptionHandling.Exceptions.TClassStillReferencedByProducts;
@@ -13,8 +17,8 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class AdministrationTypeExceptionHandlingController {
-    @ExceptionHandler(value = TClassNameAlreadyRegistered.class)
-    public ResponseEntity<Object> AdministrationTypeNameAlreadyRegistered (TClassNameAlreadyRegistered e){
+    @ExceptionHandler(value = AdministrationTypeNameAlreadyRegistered.class)
+    public ResponseEntity<Object> AdministrationTypeNameAlreadyRegistered (AdministrationTypeNameAlreadyRegistered e){
         ThrownException thrownException =       new ThrownException (
                 e.getMessage(),
                 e,
@@ -23,8 +27,8 @@ public class AdministrationTypeExceptionHandlingController {
         );
         return new  ResponseEntity<>( thrownException, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(value = TClassDescriptionAlreadyRegistered.class)
-    public ResponseEntity<Object> AdministrationTypeDescriptionAlreadyRegistered (TClassDescriptionAlreadyRegistered e){
+    @ExceptionHandler(value = AdministrationTypeDescriptionAlreadyRegistered.class)
+    public ResponseEntity<Object> AdministrationTypeDescriptionAlreadyRegistered (AdministrationTypeDescriptionAlreadyRegistered e){
         ThrownException thrownException =       new ThrownException (
                 e.getMessage(),
                 e,
@@ -33,17 +37,26 @@ public class AdministrationTypeExceptionHandlingController {
         );
         return new  ResponseEntity<>( thrownException, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(value = TClassStillReferencedByProducts.class)
-    public ResponseEntity<Object> TypeStillReferencedByProduct (TClassStillReferencedByProducts e){
+    @ExceptionHandler(value = AdministrationTypeNotFound.class)
+    public ResponseEntity<Object> AdministrationTypeNotFound (AdministrationTypeNotFound e){
         ThrownException thrownException =       new ThrownException (
                 e.getMessage(),
                 e,
                 LocalDateTime.now(),
-                HttpStatus.CONFLICT
+                HttpStatus.NOT_FOUND
         );
         return new  ResponseEntity<>( thrownException, HttpStatus.BAD_REQUEST);
     }
 
-
+    @ExceptionHandler(value = AdministrationTypeStillReferencedByProducts.class)
+    public ResponseEntity<Object> AdministrationTypeStillReferenced (AdministrationTypeStillReferencedByProducts e){
+        ThrownException thrownException =       new ThrownException (
+                e.getMessage(),
+                e,
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND
+        );
+        return new  ResponseEntity<>( thrownException, HttpStatus.BAD_REQUEST);
+    }
 
 }
