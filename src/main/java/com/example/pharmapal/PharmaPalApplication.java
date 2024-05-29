@@ -18,14 +18,5 @@ public class PharmaPalApplication {
 		SpringApplication.run(PharmaPalApplication.class, args);
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/PharmaPal").allowedOrigins("http://localhost:9000");
-			}
-		};
-	}
-
 }
+

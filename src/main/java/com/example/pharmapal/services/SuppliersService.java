@@ -1,0 +1,70 @@
+package com.example.pharmapal.services;
+
+import com.example.pharmapal.entities.DTOs.SupplierDTO;
+import com.example.pharmapal.entities.Mappers.SuppliersMapper;
+import com.example.pharmapal.entities.Suppliers;
+import com.example.pharmapal.exceptionHandling.staffExceptionsHandling.exceptions.StaffMemberNotFoundException;
+import com.example.pharmapal.exceptionHandling.suppliersExceptionHandling.exceptions.SupplierAlreadyExists;
+import com.example.pharmapal.exceptionHandling.suppliersExceptionHandling.exceptions.SupplierNotFound;
+import com.example.pharmapal.interfaces.SupplierServiceInterface;
+import com.example.pharmapal.repositories.SuppliersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class SuppliersService  implements SupplierServiceInterface {
+
+    private final SuppliersRepository suppliersRepository;
+    private final SuppliersMapper supplierMapper;
+
+@Autowired
+    public SuppliersService(SuppliersRepository suppliersRepository, SuppliersMapper supplierMapper) {
+
+    this.suppliersRepository = suppliersRepository;
+
+    this.supplierMapper = supplierMapper;
+}
+
+    public List<Suppliers> getSuppliers(){
+   return suppliersRepository.findAll();
+    }
+
+
+    public String addSupplier(Suppliers supplier){
+
+        if (!suppliersRepository.existsById(supplier.getId())) {
+            if (!suppliersRepository.existsByPhone(supplier.getPhone())) {
+                if (!suppliersRepository.existsByEmail(supplier.getEmail())) {
+                    suppliersRepository.save(supplier);
+                    return "supplier registered";
+                } else {
+                    throw new SupplierAlreadyExists("This email already exists");
+                }
+            } else {
+                throw new SupplierAlreadyExists("this phone number already exists");
+            }
+        } else {
+            throw new SupplierAlreadyExists("This user already exists");
+        }
+    }
+
+    public String updateSupplier(SupplierDTO supplierDTO){
+        Suppliers preUpdateSupplier = suppliersRepository.findById(supplierDTO.getId()).orElseThrow(()-> new SupplierNotFound("this supplier doesn't exist."));
+
+        if (!suppliersRepository.existsByEmailAndIdNot(supplierDTO.getEmail(), supplierDTO.getId())) {
+            if (!suppliersRepository.existsByPhoneAndIdNot(supplierDTO.getPhone(), supplierDTO.getId())) {
+                supplierMapper.mapSupplierFromDto(supplierDTO, preUpdateSupplier);
+                suppliersRepository.save(preUpdateSupplier);
+                return "supplier information updated successfully.";
+            } else {
+                throw new SupplierAlreadyExists("this phone number already exists.");
+            }
+        } else {
+            throw new SupplierAlreadyExists("this email already exists.");
+        }
+
+    }
+
+}
