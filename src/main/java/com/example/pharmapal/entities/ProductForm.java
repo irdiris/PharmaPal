@@ -17,7 +17,7 @@ public class ProductForm {
 
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "productForm")
     private Set<Products> productsSet;
 
 }

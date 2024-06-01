@@ -3,10 +3,10 @@ package com.example.pharmapal.services;
 import com.example.pharmapal.entities.DTOs.SupplierDTO;
 import com.example.pharmapal.entities.Mappers.SuppliersMapper;
 import com.example.pharmapal.entities.Suppliers;
-import com.example.pharmapal.exceptionHandling.staffExceptionsHandling.exceptions.StaffMemberNotFoundException;
 import com.example.pharmapal.exceptionHandling.suppliersExceptionHandling.exceptions.SupplierAlreadyExists;
 import com.example.pharmapal.exceptionHandling.suppliersExceptionHandling.exceptions.SupplierNotFound;
 import com.example.pharmapal.interfaces.SupplierServiceInterface;
+import com.example.pharmapal.repositories.BillsRepository;
 import com.example.pharmapal.repositories.SuppliersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,7 @@ import java.util.List;
 public class SuppliersService  implements SupplierServiceInterface {
 
     private final SuppliersRepository suppliersRepository;
+
     private final SuppliersMapper supplierMapper;
 
 @Autowired
@@ -28,7 +29,8 @@ public class SuppliersService  implements SupplierServiceInterface {
 }
 
     public List<Suppliers> getSuppliers(){
-   return suppliersRepository.findAll();
+         List<Suppliers> suppliers = suppliersRepository.findAll();
+         return  suppliers;
     }
 
 

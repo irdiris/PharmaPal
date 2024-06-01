@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Data
-@Table(schema = "PharmaPal", name = "Bills")
+@Table( name = "Bills")
 @Entity
 @Builder
 @NoArgsConstructor
@@ -20,7 +20,7 @@ import java.util.Set;
 public class Bills {
     @Id
     private Long id;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @Id
     @JoinColumn(name = "supplier", foreignKey = @ForeignKey(name = "fk_supplier"))
     private Suppliers supplier;

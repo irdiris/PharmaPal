@@ -6,10 +6,11 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-@Table(schema = "PharmaPal", name = "Suppliers")
+@Table( name = "Suppliers")
 @Entity
 public class Suppliers {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String name;

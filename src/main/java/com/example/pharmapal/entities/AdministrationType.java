@@ -16,6 +16,6 @@ public class AdministrationType {
 
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy ="administrationType" )
     private Set<Products> productsSet;
 }

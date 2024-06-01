@@ -30,7 +30,7 @@ public class StaffController {
 
     private final AdministrationTypeServiceInterface administrationTypeService;
 
-    public StaffController(ProductsService productsService, ProductFormServiceInterface productFormService, TherapeuticClassServiceInterface therapeuticClassService, StockedProductService stockedProductService, SuppliersService supplierService, BillsService billsService, AdministrationTypeService administrationTypeService) {
+    public StaffController(ProductsService productsService, ProductFormServiceInterface productFormService, TherapeuticClassService therapeuticClassService, StockedProductService stockedProductService, SuppliersService supplierService, BillsService billsService, AdministrationTypeService administrationTypeService) {
         this.productsService = productsService;
         this.productFormService = productFormService;
         this.therapeuticClassService = therapeuticClassService;
@@ -47,12 +47,12 @@ public class StaffController {
         products = productsService.getProduct();
         return new  ResponseEntity<>(products, HttpStatus.OK);
     }
-    @GetMapping("/addProduct")
+    @PostMapping("/addProduct")
     public ResponseEntity<String> addProduct (@RequestBody Products products){
          String response = productsService.addProduct(products);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @GetMapping("/updateProduct")
+    @PostMapping("/updateProduct")
     public ResponseEntity<String> updateProduct (@RequestBody ProductsDTO productsDTO ){
       String response = productsService.updateProducts(productsDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -64,9 +64,10 @@ public class StaffController {
         productForms = productFormService.getProductFroms();
         return new  ResponseEntity<>(productForms, HttpStatus.OK);
     }
+    @PostMapping("/addProductForm")
     public ResponseEntity<String> addProductForm (@RequestBody ProductForm productForm){
-
-        return null;
+          String response = productFormService.addProductForm(productForm);
+        return new  ResponseEntity<>(response, HttpStatus.OK);
     }
     public ResponseEntity<String> deleteProductForm (@RequestBody ProductForm productForm){
 
@@ -83,9 +84,10 @@ public class StaffController {
         administrationTypes = administrationTypeService.getAdministrationType();
         return new  ResponseEntity<>(administrationTypes, HttpStatus.OK);
     }
+    @PostMapping("/addAdministrationType")
     public ResponseEntity<String> addAdministrationType (@RequestBody AdministrationType administrationType){
-
-        return null;
+           String response = administrationTypeService.addAdministrationType(administrationType);
+        return new  ResponseEntity<>(response, HttpStatus.OK);
     }
     public ResponseEntity<String> deleteAdministrationType (@RequestBody AdministrationType administrationType){
 
@@ -101,9 +103,10 @@ public class StaffController {
         therapeuticClasses = therapeuticClassService.getTClasses();
         return new  ResponseEntity<>(therapeuticClasses, HttpStatus.OK);
     }
+    @PostMapping("/addTherapeuticClass")
     public ResponseEntity<String> addTherapeuticClass (@RequestBody TherapeuticClass therapeuticClass){
-
-        return null;
+         String response = therapeuticClassService.addTClass(therapeuticClass);
+        return new  ResponseEntity<>(response, HttpStatus.OK);
     }
     public ResponseEntity<String> deleteTherapeuticClass (@RequestBody TherapeuticClass therapeuticClass){
 
@@ -143,14 +146,10 @@ public class StaffController {
 
     }
 
-
-
-
     @GetMapping("/getSuppliers")
     public ResponseEntity<List<Suppliers>> getSuppliers(){
         List<Suppliers> suppliers;
         suppliers = supplierService.getSuppliers();
-         System.out.println(suppliers);
         return new  ResponseEntity<>(suppliers, HttpStatus.OK);
     }
     @PostMapping("/addSupplier")

@@ -40,6 +40,7 @@ public class Staff {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
+            schema = "PharmaPal",
             name = "StaffShifts",
             joinColumns = @JoinColumn(name = "staffid",foreignKey = @ForeignKey(name = "fk_staff")),
             inverseJoinColumns = @JoinColumn(name = "shiftId"), foreignKey = @ForeignKey(name = "fk_shifts"))
@@ -49,6 +50,7 @@ public class Staff {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
+            schema = "PharmaPal",
             name = "StaffPermissions",
             joinColumns = @JoinColumn(name = "staffid" ),
             inverseJoinColumns = @JoinColumn(name = "permissionId"))
