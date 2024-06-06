@@ -1,13 +1,18 @@
 package com.example.pharmapal.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Table( name = "Suppliers")
+@Table(schema = "pharma_pal" ,name = "Suppliers")
 @Entity
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Suppliers {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

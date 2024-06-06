@@ -2,6 +2,8 @@ package com.example.pharmapal.entities;
 
 import com.example.pharmapal.entities.Compositekeys.StockedProductsKey;
 import com.example.pharmapal.entities.Enumerations.StockedProductsState;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,18 +14,20 @@ import java.util.Set;
 @Entity
 @Data
 @IdClass(StockedProductsKey.class)
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "lotNumber")
 public class StockedProducts {
     @Id
     private String lotNumber;
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "productId", foreignKey = @ForeignKey(name = "fk_product"))
+    @ManyToOne (cascade = CascadeType.MERGE)
+    @JoinColumn(name = "productId" , foreignKey = @ForeignKey(name = "fk_product"), referencedColumnName = "id" )
     private Products product;
 
 
     @Id
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.MERGE)
     @JoinColumns({@JoinColumn(name = "id", foreignKey = @ForeignKey(name = "fk_billId")),
             @JoinColumn(name = "supplier", foreignKey = @ForeignKey(name = "fk_billSupplier"))
     })

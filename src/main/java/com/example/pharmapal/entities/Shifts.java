@@ -29,7 +29,6 @@ public class Shifts {
    private LocalTime shiftEnd;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "shifts", fetch = FetchType.LAZY)
-
     private Set<Staff> staff;
 
 }

@@ -2,13 +2,10 @@ package com.example.pharmapal.controller;
 
 
 import com.example.pharmapal.entities.*;
-import com.example.pharmapal.entities.DTOs.BillsDTO;
 import com.example.pharmapal.entities.DTOs.ProductsDTO;
 import com.example.pharmapal.entities.DTOs.StockedProductsDTO;
 import com.example.pharmapal.entities.DTOs.SupplierDTO;
 import com.example.pharmapal.interfaces.*;
-import com.example.pharmapal.requests.BillsRequest;
-import com.example.pharmapal.requests.StockedProductsRequest;
 import com.example.pharmapal.services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +23,19 @@ public class StaffController {
 
     private final SupplierServiceInterface supplierService;
     private final BillsServiceInterface billsService;
+    private final LendsServiceInterface lendsService;
 
 
     private final AdministrationTypeServiceInterface administrationTypeService;
 
-    public StaffController(ProductsService productsService, ProductFormServiceInterface productFormService, TherapeuticClassService therapeuticClassService, StockedProductService stockedProductService, SuppliersService supplierService, BillsService billsService, AdministrationTypeService administrationTypeService) {
+    public StaffController(ProductsService productsService, ProductFormServiceInterface productFormService, TherapeuticClassService therapeuticClassService, StockedProductService stockedProductService, SuppliersService supplierService, BillsService billsService, LendsService lendsService, AdministrationTypeService administrationTypeService) {
         this.productsService = productsService;
         this.productFormService = productFormService;
         this.therapeuticClassService = therapeuticClassService;
         this.stockedProductService = stockedProductService;
         this.supplierService = supplierService;
         this.billsService = billsService;
+        this.lendsService = lendsService;
         this.administrationTypeService = administrationTypeService;
     }
 
@@ -44,7 +43,7 @@ public class StaffController {
     @GetMapping("/getProducts")
     public ResponseEntity<List<Products>> getProducts(){
         List<Products> products;
-        products = productsService.getProduct();
+        products = productsService.getProducts();
         return new  ResponseEntity<>(products, HttpStatus.OK);
     }
     @PostMapping("/addProduct")
@@ -123,6 +122,7 @@ public class StaffController {
         stockedProducts = stockedProductService.getStockedProducts();
         return new  ResponseEntity<>(stockedProducts, HttpStatus.OK);
     }
+    @PostMapping("/addStockedProduct")
     public ResponseEntity<String> addStockedProduct (@RequestBody StockedProducts stockedProducts){
         String response = stockedProductService.stockProducts(stockedProducts);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -163,5 +163,10 @@ public class StaffController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
-
+    @GetMapping("/getLends")
+    public ResponseEntity<List<Lends>> getLends(){
+        List<Lends> lends;
+        lends = lendsService.getLends();
+        return new  ResponseEntity<>(lends, HttpStatus.OK);
+    }
 }

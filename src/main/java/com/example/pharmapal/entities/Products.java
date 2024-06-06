@@ -1,13 +1,19 @@
 package com.example.pharmapal.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "Products", schema = "PharmaPal")
 @Data
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -47,7 +53,7 @@ public class Products {
 
 
 
-    @OneToMany(mappedBy = "Products")
+    @ManyToMany(mappedBy = "Products")
     private Set<Lends> lends;
 
 }

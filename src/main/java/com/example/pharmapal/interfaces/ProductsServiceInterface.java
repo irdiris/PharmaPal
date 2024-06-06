@@ -11,7 +11,9 @@ public interface ProductsServiceInterface {
 
     String addProduct(Products product);
 
-    List<Products> getProduct();
+    List<Products> getProducts();
+
+    Products getProduct(Long id);
 
     String updateProducts(ProductsDTO productsDTO);
 

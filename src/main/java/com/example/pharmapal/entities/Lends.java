@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Table(schema = "PharmaPal" , name = "Lends")
 @Entity
@@ -29,9 +30,14 @@ public class Lends {
     private LocalDate date;
     private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "lends")
-    private Products Products;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinTable(
+            schema = "PharmaPal",
+            name = "StaffShifts",
+            joinColumns = @JoinColumn(name = "staffid",foreignKey = @ForeignKey(name = "fk_staff")),
+            inverseJoinColumns = @JoinColumn(name = "shiftId"), foreignKey = @ForeignKey(name = "fk_shifts"))
+
+    private Set<Products> Products;
 
 
 }

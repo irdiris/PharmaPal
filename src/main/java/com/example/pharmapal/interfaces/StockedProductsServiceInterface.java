@@ -1,10 +1,12 @@
 package com.example.pharmapal.interfaces;
 
 import com.example.pharmapal.entities.DTOs.StockedProductsDTO;
+import com.example.pharmapal.entities.Products;
 import com.example.pharmapal.entities.StockedProducts;
 import com.example.pharmapal.requests.StockedProductsRequest;
 
 import java.util.List;
+import java.util.Set;
 
 public interface StockedProductsServiceInterface {
 
@@ -15,5 +17,7 @@ public interface StockedProductsServiceInterface {
     public String updateStockedProduct(StockedProductsDTO stockedProductsDTO);
 
     public String deleteStockedProduct(StockedProductsRequest stockedProductsRequest);
-    
+
+
+    Set<StockedProducts> getRelatedStockedProducts(Products products);
 }

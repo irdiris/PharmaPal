@@ -19,17 +19,21 @@ public class SuppliersService  implements SupplierServiceInterface {
     private final SuppliersRepository suppliersRepository;
 
     private final SuppliersMapper supplierMapper;
-
+    private final BillsRepository billsRepository;
 @Autowired
-    public SuppliersService(SuppliersRepository suppliersRepository, SuppliersMapper supplierMapper) {
+    public SuppliersService(SuppliersRepository suppliersRepository, SuppliersMapper supplierMapper, BillsRepository billsRepository) {
 
     this.suppliersRepository = suppliersRepository;
 
     this.supplierMapper = supplierMapper;
+    this.billsRepository = billsRepository;
 }
 
     public List<Suppliers> getSuppliers(){
          List<Suppliers> suppliers = suppliersRepository.findAll();
+         for (Suppliers supplier : suppliers){
+             supplier.setBills(billsRepository.findAllBySupplier(supplier));
+         }
          return  suppliers;
     }
 

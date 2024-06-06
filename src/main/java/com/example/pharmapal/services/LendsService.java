@@ -6,6 +6,7 @@ import com.example.pharmapal.entities.Lends;
 import com.example.pharmapal.exceptionHandling.lendsExceptionHandling.exceptions.LendDoesNotExistException;
 import com.example.pharmapal.interfaces.LendsServiceInterface;
 import com.example.pharmapal.repositories.LendsRepository;
+import com.example.pharmapal.repositories.ProductsRepository;
 import com.example.pharmapal.requests.LendsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,20 @@ import java.util.List;
 public class LendsService implements LendsServiceInterface {
 
     private final LendsRepository lendsRepository;
+    private  final ProductsRepository productsRepository;
 @Autowired
-    public LendsService(LendsRepository lendsRepository) {
+    public LendsService(LendsRepository lendsRepository, ProductsRepository productsRepository) {
         this.lendsRepository = lendsRepository;
-    }
+    this.productsRepository = productsRepository;
+}
 
     @Override
     public List<Lends> getLends() {
-        return lendsRepository.findAll();
+        List<Lends> lends = lendsRepository.findAll();
+        for (Lends lend : lends){
+            lend.setProducts(productsRepository.findAllByLends(lend));
+        }
+        return lends;
     }
 
     @Override

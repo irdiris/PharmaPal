@@ -8,6 +8,7 @@ import com.example.pharmapal.exceptionHandling.therapeuticClassExceptionHandling
 import com.example.pharmapal.exceptionHandling.therapeuticClassExceptionHandling.exceptions.TClassNotFound;
 import com.example.pharmapal.exceptionHandling.therapeuticClassExceptionHandling.exceptions.TClassStillReferencedByProducts;
 import com.example.pharmapal.interfaces.TherapeuticClassServiceInterface;
+import com.example.pharmapal.repositories.ProductsRepository;
 import com.example.pharmapal.repositories.TherapeuticClassRepository;
 import com.example.pharmapal.requests.TClassRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +21,22 @@ public class TherapeuticClassService implements TherapeuticClassServiceInterface
     private final TherapeuticClassRepository therapeuticClassRepository;
 
     private final TherapeuticClassMapper therapeuticClassMapper;
+    private final ProductsRepository productsRepository;
     @Autowired
 
-    public TherapeuticClassService(TherapeuticClassRepository therapeuticClassRepository, TherapeuticClassMapper therapeuticClassMapper) {
+    public TherapeuticClassService(TherapeuticClassRepository therapeuticClassRepository, TherapeuticClassMapper therapeuticClassMapper, ProductsRepository productsRepository) {
         this.therapeuticClassRepository = therapeuticClassRepository;
         this.therapeuticClassMapper = therapeuticClassMapper;
+        this.productsRepository = productsRepository;
     }
 
     @Override
     public List<TherapeuticClass> getTClasses() {
-        return therapeuticClassRepository.findAll();
+        List<TherapeuticClass> therapeuticClasses =  therapeuticClassRepository.findAll();
+        for (TherapeuticClass therapeuticClass: therapeuticClasses){
+            therapeuticClass.setProductsSet(productsRepository.findAllByTherapeuticClass(therapeuticClass));
+        }
+        return therapeuticClasses;
     }
 
     @Override
