@@ -15,5 +15,5 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
 
     List<Products> findAllByIsPsychotropicIsTrue();
     Set<Products> findAllByTherapeuticClass(TherapeuticClass therapeuticClass);
-    Set<Products> findAllByLends(Lends lends);
+
 }

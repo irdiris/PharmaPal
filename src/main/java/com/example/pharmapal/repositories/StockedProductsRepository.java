@@ -1,6 +1,7 @@
 package com.example.pharmapal.repositories;
 
 import com.example.pharmapal.entities.Bills;
+import com.example.pharmapal.entities.Lends;
 import com.example.pharmapal.entities.Products;
 import com.example.pharmapal.entities.StockedProducts;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,7 @@ public interface StockedProductsRepository  extends JpaRepository<StockedProduct
     Optional<StockedProducts> findByLotNumber(String lotNumber);
     Optional<StockedProducts> findByLotNumberAndBillsAndProduct(String lotNumber, Bills bills, Products products);
     Set<StockedProducts> findAllByProduct (Products products);
+    Set<StockedProducts> findAllByBills (Bills bills);
+
+
 }

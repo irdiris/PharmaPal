@@ -18,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Lends {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Enumerated(EnumType.STRING)
     private LendStates state;
@@ -30,14 +31,8 @@ public class Lends {
     private LocalDate date;
     private int quantity;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinTable(
-            schema = "PharmaPal",
-            name = "StaffShifts",
-            joinColumns = @JoinColumn(name = "staffid",foreignKey = @ForeignKey(name = "fk_staff")),
-            inverseJoinColumns = @JoinColumn(name = "shiftId"), foreignKey = @ForeignKey(name = "fk_shifts"))
-
-    private Set<Products> Products;
+    @OneToMany(mappedBy = "lend",cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    private Set<LentItems> lentItems;
 
 
 }

@@ -38,7 +38,7 @@ public class Bills {
     private LocalDate dueDate;
 
     @Enumerated(EnumType.STRING)
-    private BillTypes type;
+    private BillTypes state;
 
 
     @OneToMany(mappedBy = "bills", cascade = CascadeType.ALL)

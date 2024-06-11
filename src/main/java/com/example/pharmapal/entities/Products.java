@@ -53,8 +53,7 @@ public class Products {
 
 
 
-    @ManyToMany(mappedBy = "Products")
-    private Set<Lends> lends;
+
 
 }
 

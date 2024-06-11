@@ -67,5 +67,11 @@ public class StockedProducts {
 
     @OneToMany(mappedBy = "stockedProducts")
     private Set<PsychotropicDrugSales> psychotropicDrugSales;
+    @ManyToMany()
+    @JoinColumns({@JoinColumn(name = "id", foreignKey = @ForeignKey(name = "fk_Id")),
+            @JoinColumn(name = "lendId", foreignKey = @ForeignKey(name = "fk_LendId"))
+    })
+    private Set<LentItems> lentItems;
+
 
 }
