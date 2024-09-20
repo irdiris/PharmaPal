@@ -1,7 +1,7 @@
 package com.example.pharmapal.entities.DTOs;
 
 import com.example.pharmapal.entities.Bills;
-import com.example.pharmapal.entities.Enumerations.LendStates;
+import com.example.pharmapal.entities.enumerations.LendStates;
 import com.example.pharmapal.entities.Products;
 import com.example.pharmapal.entities.ProductsSold;
 import com.example.pharmapal.entities.PsychotropicDrugSales;

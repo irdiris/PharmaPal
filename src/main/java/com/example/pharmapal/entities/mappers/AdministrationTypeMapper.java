@@ -1,4 +1,4 @@
-package com.example.pharmapal.entities.Mappers;
+package com.example.pharmapal.entities.mappers;
 
 import com.example.pharmapal.entities.AdministrationType;
 import com.example.pharmapal.entities.DTOs.AdministrationTypeDTO;

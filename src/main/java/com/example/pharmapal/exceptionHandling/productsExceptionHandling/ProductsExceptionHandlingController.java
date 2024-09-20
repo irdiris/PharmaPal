@@ -6,9 +6,11 @@ import com.example.pharmapal.exceptionHandling.productsExceptionHandling.excepti
 import com.example.pharmapal.exceptionHandling.ThrownException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
+@ControllerAdvice
 
 public class ProductsExceptionHandlingController {
 
@@ -20,7 +22,7 @@ public class ProductsExceptionHandlingController {
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT
         );
-        return new  ResponseEntity<>( thrownException, HttpStatus.BAD_REQUEST);
+        return new  ResponseEntity<>( thrownException, HttpStatus.CONFLICT);
     }
     @ExceptionHandler(value = ProductNotFoundException.class)
     public ResponseEntity<Object> productNotFound(ProductNotFoundException e){
@@ -28,9 +30,9 @@ public class ProductsExceptionHandlingController {
                 e.getMessage(),
                 e,
                 LocalDateTime.now(),
-                HttpStatus.CONFLICT
+                HttpStatus.NOT_FOUND
         );
-        return new  ResponseEntity<>( thrownException, HttpStatus.BAD_REQUEST);
+        return new  ResponseEntity<>( thrownException, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(value = ProductStillStockedException.class)
     public ResponseEntity<Object> productStillStocked (ProductStillStockedException e){
@@ -40,6 +42,6 @@ public class ProductsExceptionHandlingController {
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT
         );
-        return new  ResponseEntity<>( thrownException, HttpStatus.BAD_REQUEST);
+        return new  ResponseEntity<>( thrownException, HttpStatus.CONFLICT);
     }
 }

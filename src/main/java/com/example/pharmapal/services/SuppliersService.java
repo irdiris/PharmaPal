@@ -1,7 +1,7 @@
 package com.example.pharmapal.services;
 
 import com.example.pharmapal.entities.DTOs.SupplierDTO;
-import com.example.pharmapal.entities.Mappers.SuppliersMapper;
+import com.example.pharmapal.entities.mappers.SuppliersMapper;
 import com.example.pharmapal.entities.Suppliers;
 import com.example.pharmapal.exceptionHandling.suppliersExceptionHandling.exceptions.SupplierAlreadyExists;
 import com.example.pharmapal.exceptionHandling.suppliersExceptionHandling.exceptions.SupplierNotFound;
@@ -40,7 +40,7 @@ public class SuppliersService  implements SupplierServiceInterface {
 
     public String addSupplier(Suppliers supplier){
 
-        if (!suppliersRepository.existsById(supplier.getId())) {
+
             if (!suppliersRepository.existsByPhone(supplier.getPhone())) {
                 if (!suppliersRepository.existsByEmail(supplier.getEmail())) {
                     suppliersRepository.save(supplier);
@@ -51,16 +51,14 @@ public class SuppliersService  implements SupplierServiceInterface {
             } else {
                 throw new SupplierAlreadyExists("this phone number already exists");
             }
-        } else {
-            throw new SupplierAlreadyExists("This user already exists");
         }
-    }
+
 
     public String updateSupplier(SupplierDTO supplierDTO){
         Suppliers preUpdateSupplier = suppliersRepository.findById(supplierDTO.getId()).orElseThrow(()-> new SupplierNotFound("this supplier doesn't exist."));
 
-        if (!suppliersRepository.existsByEmailAndIdNot(supplierDTO.getEmail(), supplierDTO.getId())) {
-            if (!suppliersRepository.existsByPhoneAndIdNot(supplierDTO.getPhone(), supplierDTO.getId())) {
+        if (!suppliersRepository.existsByEmailAndSupplierIdNot(supplierDTO.getEmail(), supplierDTO.getId())) {
+            if (!suppliersRepository.existsByPhoneAndSupplierIdNot(supplierDTO.getPhone(), supplierDTO.getId())) {
                 supplierMapper.mapSupplierFromDto(supplierDTO, preUpdateSupplier);
                 suppliersRepository.save(preUpdateSupplier);
                 return "supplier information updated successfully.";

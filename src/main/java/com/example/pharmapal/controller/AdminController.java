@@ -7,17 +7,12 @@ import com.example.pharmapal.entities.DTOs.StaffDTO;
 import com.example.pharmapal.entities.Permissions;
 import com.example.pharmapal.entities.Shifts;
 import com.example.pharmapal.entities.Staff;
-import com.example.pharmapal.interfaces.DataBaseServiceInterface;
-import com.example.pharmapal.interfaces.PermissionsServiceInterface;
-import com.example.pharmapal.interfaces.ShiftsServiceInterface;
-import com.example.pharmapal.interfaces.StaffServiceInterface;
+import com.example.pharmapal.entities.WorkHours;
+import com.example.pharmapal.interfaces.*;
 import com.example.pharmapal.requests.AssignShiftsRequest;
 import com.example.pharmapal.requests.GrantPermissionsRequest;
 import com.example.pharmapal.requests.ShiftIdRequest;
-import com.example.pharmapal.services.DataBaseService;
-import com.example.pharmapal.services.PermissionsService;
-import com.example.pharmapal.services.ShiftsService;
-import com.example.pharmapal.services.StaffService;
+import com.example.pharmapal.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,27 +23,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/PharmaPal/Admin")
-public class AdminController {
+public class  AdminController {
 
     private final StaffServiceInterface staffService;
     private final DataBaseServiceInterface dataBaseService;
     private final ShiftsServiceInterface shiftsService;
     private  final PermissionsServiceInterface permissionsService;
+    private final WorkHoursServiceInterface workHoursService;
 
-@Autowired
-    public AdminController(StaffService staffService, DataBaseService dataBaseService, ShiftsService shiftsService, PermissionsService permissionsService) {
+    @Autowired
+    public AdminController(StaffService staffService, DataBaseService dataBaseService, ShiftsService shiftsService, PermissionsService permissionsService, WorkHoursService workHoursService) {
         this.staffService = staffService;
     this.dataBaseService = dataBaseService;
     this.shiftsService = shiftsService;
 
     this.permissionsService = permissionsService;
-}
+        this.workHoursService = workHoursService;
+    }
 
 
     @GetMapping("/getStaff")
     public ResponseEntity<List<Staff>> getStaff(){
     List<Staff> staff = staffService.getStaff();
-
+    System.out.println(staff);
     return  new ResponseEntity<>(staff, HttpStatus.OK);
 
     }
@@ -137,6 +134,11 @@ public class AdminController {
     public  ResponseEntity<String> revokePermission(@RequestBody GrantPermissionsRequest grantPermissionsRequest){
         String response = staffService.revokePermission(grantPermissionsRequest);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("/getWorkHours")
+    public ResponseEntity<List<WorkHours>> getWorkHours(){
+      List<WorkHours> response = workHoursService.getWorkHours();
+      return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

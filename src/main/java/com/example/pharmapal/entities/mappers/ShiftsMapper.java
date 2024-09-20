@@ -1,4 +1,4 @@
-package com.example.pharmapal.entities.Mappers;
+package com.example.pharmapal.entities.mappers;
 
 import com.example.pharmapal.entities.DTOs.ShiftsDTO;
 import com.example.pharmapal.entities.Shifts;

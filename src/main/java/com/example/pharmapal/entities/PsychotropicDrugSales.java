@@ -1,24 +1,32 @@
 package com.example.pharmapal.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.example.pharmapal.entities.compositekeys.PsychotropicDrugSalesKey;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(schema = "PharmaPal", name = "PsychotropicDrugSales")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.IntSequenceGenerator.class,
+        property = "@psychoMedId"
+)
+@IdClass(PsychotropicDrugSalesKey.class)
 public class PsychotropicDrugSales {
     @Id
-    private Long id;
+    private Long psychoMedId;
 
-@ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private StockedProducts stockedProducts;
 
 
-@ManyToOne
+    @ManyToOne
+    @Id
     private Transactions transaction;
 
     private Long clientId;
+
+    private int quantity;
 }

@@ -1,4 +1,4 @@
-package com.example.pharmapal.entities.Compositekeys;
+package com.example.pharmapal.entities.compositekeys;
 
 import com.example.pharmapal.entities.Bills;
 import com.example.pharmapal.entities.Products;

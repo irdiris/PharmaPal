@@ -9,6 +9,6 @@ public interface SuppliersRepository extends JpaRepository<Suppliers, Long> {
 
     public boolean existsByPhone(double phone);
     public boolean existsByEmail(String email);
-    public boolean existsByPhoneAndIdNot(double phone, Long id);
-    public boolean existsByEmailAndIdNot(String email, Long id);
+    public boolean existsByPhoneAndSupplierIdNot(double phone, Long id);
+    public boolean existsByEmailAndSupplierIdNot(String email, Long id);
 }

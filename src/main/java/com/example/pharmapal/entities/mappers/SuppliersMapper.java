@@ -1,4 +1,4 @@
-package com.example.pharmapal.entities.Mappers;
+package com.example.pharmapal.entities.mappers;
 import com.example.pharmapal.entities.DTOs.SupplierDTO;
 import com.example.pharmapal.entities.Suppliers;
 import org.modelmapper.ModelMapper;

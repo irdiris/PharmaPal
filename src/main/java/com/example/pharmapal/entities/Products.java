@@ -1,23 +1,21 @@
 package com.example.pharmapal.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.pharmapal.entities.enumerations.Type;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "Products", schema = "PharmaPal")
 @Data
-@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Long productId;
 
     @Column(unique = true)
     private String designation;
@@ -27,20 +25,24 @@ public class Products {
 
     private String dci;
 
-    @ManyToOne
-    @JoinColumn(name = "therapeuticClass")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "therapeuticClass", referencedColumnName = "tClassId")
     private TherapeuticClass therapeuticClass;
 
     private String markup;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "productForm")
+
     private ProductForm productForm;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "administrationType")
+
     private AdministrationType administrationType;
 
     private String dosage;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     private String packaging;
     @Column(nullable = false)

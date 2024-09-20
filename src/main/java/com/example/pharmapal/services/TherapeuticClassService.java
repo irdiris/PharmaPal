@@ -1,7 +1,8 @@
 package com.example.pharmapal.services;
 
+import com.example.pharmapal.entities.DAOs.TopSoldClasses;
 import com.example.pharmapal.entities.DTOs.TherapeuticClassDTO;
-import com.example.pharmapal.entities.Mappers.TherapeuticClassMapper;
+import com.example.pharmapal.entities.mappers.TherapeuticClassMapper;
 import com.example.pharmapal.entities.TherapeuticClass;
 import com.example.pharmapal.exceptionHandling.therapeuticClassExceptionHandling.exceptions.TClassDescriptionAlreadyRegistered;
 import com.example.pharmapal.exceptionHandling.therapeuticClassExceptionHandling.exceptions.TClassNameAlreadyRegistered;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class TherapeuticClassService implements TherapeuticClassServiceInterface {
 
@@ -36,6 +38,7 @@ public class TherapeuticClassService implements TherapeuticClassServiceInterface
         for (TherapeuticClass therapeuticClass: therapeuticClasses){
             therapeuticClass.setProductsSet(productsRepository.findAllByTherapeuticClass(therapeuticClass));
         }
+        System.out.println(therapeuticClasses);
         return therapeuticClasses;
     }
 
@@ -82,5 +85,17 @@ public class TherapeuticClassService implements TherapeuticClassServiceInterface
             throw new TClassStillReferencedByProducts("there are products that still reference this class, delete them or update the reference.");
         }
     }
-}
 
+    @Override
+    public List<TopSoldClasses> getSalesByClass(){
+        List<Object[]> objects = therapeuticClassRepository.getSalesByClass();
+     return  objects.stream().map(
+                object -> new TopSoldClasses(
+                        (String) object[0],
+                        (String) object[1],
+                        Math.toIntExact((Long) object[2]),
+                        Math.toIntExact((Long) object[3])
+                ))
+        .toList();
+    }
+}

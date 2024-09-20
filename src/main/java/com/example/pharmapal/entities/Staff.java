@@ -1,27 +1,24 @@
 package com.example.pharmapal.entities;
 
-import com.example.pharmapal.entities.Enumerations.StaffStates;
-import com.example.pharmapal.entities.Enumerations.UserTypes;
+import com.example.pharmapal.entities.enumerations.StaffStates;
+import com.example.pharmapal.entities.enumerations.UserTypes;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import java.util.Objects;
 import java.util.Set;
 
 @Table(schema = "PharmaPal", name = "Staff")
 @Data
 @Entity
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.IntSequenceGenerator.class,
+        property = "@staffId"
+)
+@ToString(exclude = {"user", "workHoursSet", "shifts", "permissions", "transactionsSet"})
 public class Staff {
     @Id
-    private Long id;
+    private Long staffId;
     private String username;
     private String password;
     @Enumerated(EnumType.STRING)
@@ -38,15 +35,13 @@ public class Staff {
     @JoinColumn(name = "staff")
     private Set<WorkHours> workHoursSet;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
             schema = "PharmaPal",
             name = "StaffShifts",
             joinColumns = @JoinColumn(name = "staffid",foreignKey = @ForeignKey(name = "fk_staff")),
             inverseJoinColumns = @JoinColumn(name = "shiftId"), foreignKey = @ForeignKey(name = "fk_shifts"))
-
     private Set<Shifts> shifts;
-
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
@@ -57,12 +52,23 @@ public class Staff {
     private Set<Permissions> permissions;
 
     @OneToMany()
+    @JoinColumn(name = "staff")
+
     private Set<Transactions> transactionsSet;
 
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, password, state, type);
-    }
-
+ // Custom toString method to avoid circular references
+//    @Override
+//    public String toString() {
+//        return "Staff{" +
+//                "staffId=" + staffId +
+//                ", username='" + username + '\'' +
+//                ", state=" + state +
+//                ", type=" + type +
+//                ", userId=" + (user != null ? user.getUserId() : null) +
+//                ", workHoursCount=" + (workHoursSet != null ? workHoursSet.size() : 0) +
+//                ", shiftsCount=" + (shifts != null ? shifts.size() : 0) +
+//                ", permissionsCount=" + (permissions != null ? permissions.size() : 0) +
+//                ", transactionsCount=" + (transactionsSet != null ? transactionsSet.size() : 0) +
+//                '}';
+//    }
 }

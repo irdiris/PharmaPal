@@ -1,7 +1,7 @@
 package com.example.pharmapal.services;
 
 import com.example.pharmapal.entities.DTOs.ProductsDTO;
-import com.example.pharmapal.entities.Mappers.ProductsMapper;
+import com.example.pharmapal.entities.mappers.ProductsMapper;
 import com.example.pharmapal.entities.Products;
 import com.example.pharmapal.exceptionHandling.productsExceptionHandling.exceptions.ProductNameIsAlreadyRegisteredException;
 import com.example.pharmapal.exceptionHandling.productsExceptionHandling.exceptions.ProductNotFoundException;
@@ -22,6 +22,7 @@ public class ProductsService implements ProductsServiceInterface {
     private final ProductsRepository productsRepository;
     private final ProductsMapper productsMapper;
     private final StockedProductsRepository stockedProductsRepository;
+
     @Autowired
     public ProductsService(ProductsRepository productsRepository, ProductsMapper productsMapper, StockedProductsRepository stockedProductsRepository) {
         this.productsRepository = productsRepository;
@@ -43,11 +44,7 @@ public class ProductsService implements ProductsServiceInterface {
 
     @Override
     public List<Products> getProducts() {
-         List<Products> products = productsRepository.findAll();
-         for (Products product: products){
-             product.setStockedProducts(stockedProductsRepository.findAllByProduct(product));
-         }
-         return products;
+        return productsRepository.findAll();
     }
 
     @Override

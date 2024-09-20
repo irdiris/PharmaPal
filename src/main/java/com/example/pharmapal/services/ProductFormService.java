@@ -1,7 +1,7 @@
 package com.example.pharmapal.services;
 
 import com.example.pharmapal.entities.DTOs.ProductFormDTO;
-import com.example.pharmapal.entities.Mappers.ProductFormMapper;
+import com.example.pharmapal.entities.mappers.ProductFormMapper;
 import com.example.pharmapal.entities.ProductForm;
 import com.example.pharmapal.exceptionHandling.productFormExceptionhandling.exceptions.ProductFormDescriptionAlreadyRegistered;
 import com.example.pharmapal.exceptionHandling.productFormExceptionhandling.exceptions.ProductFormNameAlreadyRegistered;

@@ -1,8 +1,8 @@
 package com.example.pharmapal.services;
 
 import com.example.pharmapal.entities.DTOs.StaffDTO;
-import com.example.pharmapal.entities.Enumerations.StaffStates;
-import com.example.pharmapal.entities.Mappers.StaffMapper;
+import com.example.pharmapal.entities.enumerations.StaffStates;
+import com.example.pharmapal.entities.mappers.StaffMapper;
 import com.example.pharmapal.entities.Permissions;
 import com.example.pharmapal.entities.Shifts;
 import com.example.pharmapal.entities.Staff;
@@ -50,7 +50,7 @@ public class StaffService implements StaffServiceInterface {
 
     // add new staff member.
     public String addStaffMember(Staff staffMember) {
-        if (!userRepository.existsById(staffMember.getId())) {
+        if (!userRepository.existsById(staffMember.getStaffId())) {
             if (!userRepository.existsByPhone(staffMember.getUser().getPhone())) {
                 if (!userRepository.existsByEmail(staffMember.getUser().getEmail())) {
                     staffRepository.save(staffMember);
@@ -71,8 +71,8 @@ public class StaffService implements StaffServiceInterface {
     public String updateStaffMember(StaffDTO updatedStaffMember) {
        Staff preUpdateStaffMember = staffRepository.findById(updatedStaffMember.getId()).orElseThrow(()-> new StaffMemberNotFoundException("this employee doesn't exist."));
 
-            if (!userRepository.existsByEmailAndIdNot(updatedStaffMember.getUser().getEmail(), updatedStaffMember.getId())) {
-                if (!userRepository.existsByPhoneAndIdNot(updatedStaffMember.getUser().getPhone(), updatedStaffMember.getId())) {
+            if (!userRepository.existsByEmailAndUserIdNot(updatedStaffMember.getUser().getEmail(), updatedStaffMember.getId())) {
+                if (!userRepository.existsByPhoneAndUserIdNot(updatedStaffMember.getUser().getPhone(), updatedStaffMember.getId())) {
                     staffMapper.mapStaffFromDto(updatedStaffMember, preUpdateStaffMember);
                     staffRepository.save(preUpdateStaffMember);
                     return "employee information updated successfully.";
@@ -87,7 +87,7 @@ public class StaffService implements StaffServiceInterface {
 
     //terminates an employee once they're fired.
     public String terminateStaff(Staff staff) {
-        Staff staffMemberToBeTerminated = staffRepository.findById(staff.getId()).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist."));
+        Staff staffMemberToBeTerminated = staffRepository.findById(staff.getStaffId()).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist."));
         staffMemberToBeTerminated.setState(StaffStates.TERMINATED);
         staffMemberToBeTerminated.getShifts().clear();
         staffRepository.save(staffMemberToBeTerminated);
@@ -96,7 +96,7 @@ public class StaffService implements StaffServiceInterface {
     }
 
     public String assignShift(AssignShiftsRequest assignShiftsRequest) {
-        Staff staff = staffRepository.findByIdAndState(assignShiftsRequest.getStaffId(), StaffStates.ACTIVE).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist"));
+        Staff staff = staffRepository.findByStaffIdAndState(assignShiftsRequest.getStaffId(), StaffStates.ACTIVE).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist"));
         Shifts shifts = shiftsRepository.findById(assignShiftsRequest.getShiftId()).orElseThrow(() -> new ShiftNotFoundException("this shift doesn't exist"));
         staff.getShifts().add(shifts);
         shifts.getStaff().add(staff);
@@ -106,7 +106,7 @@ public class StaffService implements StaffServiceInterface {
     }
 
     public String removeFromShift(AssignShiftsRequest assignShiftsRequest) {
-        Staff staff = staffRepository.findByIdAndState(assignShiftsRequest.getStaffId(), StaffStates.ACTIVE).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist"));
+        Staff staff = staffRepository.findByStaffIdAndState(assignShiftsRequest.getStaffId(), StaffStates.ACTIVE).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist"));
         Shifts shifts = shiftsRepository.findById(assignShiftsRequest.getShiftId()).orElseThrow(() -> new ShiftNotFoundException("this shift doesn't exist"));
     staff.getShifts().remove(shifts);
     shifts.getStaff().remove(staff);
@@ -116,7 +116,7 @@ public class StaffService implements StaffServiceInterface {
     }
 
     public String grantPermission(GrantPermissionsRequest grantPermissionsRequest) {
-        Staff staff = staffRepository.findByIdAndState(grantPermissionsRequest.getStaffId(), StaffStates.ACTIVE).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist"));
+        Staff staff = staffRepository.findByStaffIdAndState(grantPermissionsRequest.getStaffId(), StaffStates.ACTIVE).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist"));
         Permissions permissions = permissionsRepository.findById(grantPermissionsRequest.getPermissionId()).orElseThrow(() -> new PermissionNotFoundException("this permission doesn't exist"));
         staff.getPermissions().add(permissions);
         permissions.getStaffSet().add(staff);
@@ -126,7 +126,7 @@ public class StaffService implements StaffServiceInterface {
     }
 
     public String revokePermission(GrantPermissionsRequest grantPermissionsRequest){
-        Staff staff = staffRepository.findByIdAndState(grantPermissionsRequest.getStaffId(), StaffStates.ACTIVE).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist"));
+        Staff staff = staffRepository.findByStaffIdAndState(grantPermissionsRequest.getStaffId(), StaffStates.ACTIVE).orElseThrow(() -> new StaffMemberNotFoundException("this employee doesn't exist"));
         Permissions permissions = permissionsRepository.findById(grantPermissionsRequest.getPermissionId()).orElseThrow(() -> new PermissionNotFoundException("this permission doesn't exist"));
         staff.getPermissions().remove(permissions);
         permissions.getStaffSet().remove(staff);

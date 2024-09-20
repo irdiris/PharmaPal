@@ -1,9 +1,11 @@
 package com.example.pharmapal.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,12 +13,11 @@ import java.util.Set;
 @Data
 @Table(schema = "pharma_pal" ,name = "Suppliers")
 @Entity
-@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+
 public class Suppliers {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Long supplierId;
 
     private String name;
     private double phone;

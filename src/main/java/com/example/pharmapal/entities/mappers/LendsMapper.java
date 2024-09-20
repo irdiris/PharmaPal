@@ -1,4 +1,4 @@
-package com.example.pharmapal.entities.Mappers;
+package com.example.pharmapal.entities.mappers;
 
 import com.example.pharmapal.entities.DTOs.LendsDTO;
 import com.example.pharmapal.entities.Lends;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LendsMapper {
-
+//
     private  final ModelMapper modelMapper = new ModelMapper();
 
 

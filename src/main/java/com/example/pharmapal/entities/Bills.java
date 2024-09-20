@@ -1,15 +1,11 @@
 package com.example.pharmapal.entities;
 
-import com.example.pharmapal.entities.Compositekeys.BillsKey;
-import com.example.pharmapal.entities.Enumerations.BillTypes;
-import com.example.pharmapal.entities.Enumerations.UserTypes;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.example.pharmapal.entities.compositekeys.BillsKey;
+import com.example.pharmapal.entities.enumerations.BillStates;
+
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -21,14 +17,14 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(BillsKey.class)
-@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Bills {
     @Id
-    private Long id;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+
+    private Long billId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Id
     @JoinColumn(name = "supplier", foreignKey = @ForeignKey(name = "fk_supplier"))
+
     private Suppliers supplier;
     @Temporal(TemporalType.DATE)
     private LocalDate billDate;
@@ -38,10 +34,11 @@ public class Bills {
     private LocalDate dueDate;
 
     @Enumerated(EnumType.STRING)
-    private BillTypes state;
+    private BillStates state;
 
 
     @OneToMany(mappedBy = "bills", cascade = CascadeType.ALL)
+
     private Set<StockedProducts> stockedProducts;
 
 

@@ -1,4 +1,4 @@
-package com.example.pharmapal.entities.Enumerations;
+package com.example.pharmapal.entities.enumerations;
 
 public enum UserTypes {
     STAFF,

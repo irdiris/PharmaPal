@@ -2,7 +2,7 @@ package com.example.pharmapal.services;
 
 import com.example.pharmapal.entities.AdministrationType;
 import com.example.pharmapal.entities.DTOs.AdministrationTypeDTO;
-import com.example.pharmapal.entities.Mappers.AdministrationTypeMapper;
+import com.example.pharmapal.entities.mappers.AdministrationTypeMapper;
 import com.example.pharmapal.exceptionHandling.administrationTypeExceptionHandling.exceptions.AdministrationTypeDescriptionAlreadyRegistered;
 import com.example.pharmapal.exceptionHandling.administrationTypeExceptionHandling.exceptions.AdministrationTypeNameAlreadyRegistered;
 import com.example.pharmapal.exceptionHandling.administrationTypeExceptionHandling.exceptions.AdministrationTypeNotFound;

@@ -2,6 +2,9 @@ package com.example.pharmapal.controller;
 
 
 import com.example.pharmapal.entities.*;
+import com.example.pharmapal.entities.DAOs.DailyTransactionsDAO;
+import com.example.pharmapal.entities.DAOs.TopSoldClasses;
+import com.example.pharmapal.entities.DAOs.WeeklyTransactionsDAO;
 import com.example.pharmapal.entities.DTOs.ProductsDTO;
 import com.example.pharmapal.entities.DTOs.StockedProductsDTO;
 import com.example.pharmapal.entities.DTOs.SupplierDTO;
@@ -11,7 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @RestController
 @RequestMapping("/PharmaPal/Staff")
@@ -24,11 +28,12 @@ public class StaffController {
     private final SupplierServiceInterface supplierService;
     private final BillsServiceInterface billsService;
     private final LendsServiceInterface lendsService;
+    private final StaffServiceInterface staffService;
 
-
+    private final TransactionsServiceInterface transactionsService;
     private final AdministrationTypeServiceInterface administrationTypeService;
 
-    public StaffController(ProductsService productsService, ProductFormServiceInterface productFormService, TherapeuticClassService therapeuticClassService, StockedProductService stockedProductService, SuppliersService supplierService, BillsService billsService, LendsService lendsService, AdministrationTypeService administrationTypeService) {
+    public StaffController(ProductsService productsService, ProductFormServiceInterface productFormService, TherapeuticClassService therapeuticClassService, StockedProductService stockedProductService, SuppliersService supplierService, BillsService billsService, LendsService lendsService, StaffService staffService, TransactionsService transactionsService, AdministrationTypeService administrationTypeService) {
         this.productsService = productsService;
         this.productFormService = productFormService;
         this.therapeuticClassService = therapeuticClassService;
@@ -36,6 +41,8 @@ public class StaffController {
         this.supplierService = supplierService;
         this.billsService = billsService;
         this.lendsService = lendsService;
+        this.staffService = staffService;
+        this.transactionsService = transactionsService;
         this.administrationTypeService = administrationTypeService;
     }
 
@@ -57,6 +64,7 @@ public class StaffController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @GetMapping("/getProductForms")
     public ResponseEntity<List<ProductForm>> getProductForms(){
         List<ProductForm> productForms;
@@ -66,7 +74,7 @@ public class StaffController {
     @PostMapping("/addProductForm")
     public ResponseEntity<String> addProductForm (@RequestBody ProductForm productForm){
           String response = productFormService.addProductForm(productForm);
-        return new  ResponseEntity<>(response, HttpStatus.OK);
+        return new  ResponseEntity<>(response, HttpStatus.CREATED);
     }
     public ResponseEntity<String> deleteProductForm (@RequestBody ProductForm productForm){
 
@@ -86,7 +94,7 @@ public class StaffController {
     @PostMapping("/addAdministrationType")
     public ResponseEntity<String> addAdministrationType (@RequestBody AdministrationType administrationType){
            String response = administrationTypeService.addAdministrationType(administrationType);
-        return new  ResponseEntity<>(response, HttpStatus.OK);
+        return new  ResponseEntity<>(response, HttpStatus.CREATED);
     }
     public ResponseEntity<String> deleteAdministrationType (@RequestBody AdministrationType administrationType){
 
@@ -102,10 +110,18 @@ public class StaffController {
         therapeuticClasses = therapeuticClassService.getTClasses();
         return new  ResponseEntity<>(therapeuticClasses, HttpStatus.OK);
     }
+    @GetMapping("/getSalesByClass")
+    public ResponseEntity<List<TopSoldClasses>> getSalesByClass(){
+        List<TopSoldClasses> salesByClass;
+        salesByClass = therapeuticClassService.getSalesByClass();
+        return new  ResponseEntity<>(salesByClass, HttpStatus.OK);
+    }
+
     @PostMapping("/addTherapeuticClass")
     public ResponseEntity<String> addTherapeuticClass (@RequestBody TherapeuticClass therapeuticClass){
+           System.out.println(therapeuticClass);
          String response = therapeuticClassService.addTClass(therapeuticClass);
-        return new  ResponseEntity<>(response, HttpStatus.OK);
+        return new  ResponseEntity<>(response, HttpStatus.CREATED);
     }
     public ResponseEntity<String> deleteTherapeuticClass (@RequestBody TherapeuticClass therapeuticClass){
 
@@ -122,16 +138,33 @@ public class StaffController {
         stockedProducts = stockedProductService.getStockedProducts();
         return new  ResponseEntity<>(stockedProducts, HttpStatus.OK);
     }
+    @GetMapping("/getAvailableProducts")
+    public ResponseEntity<List<StockedProducts>> getAvailableProducts(){
+        List<StockedProducts> stockedProducts;
+        stockedProducts = stockedProductService.getAvailableProducts();
+        return new  ResponseEntity<>(stockedProducts, HttpStatus.OK);
+    }
     @PostMapping("/addStockedProduct")
     public ResponseEntity<String> addStockedProduct (@RequestBody StockedProducts stockedProducts){
         String response = stockedProductService.stockProducts(stockedProducts);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     public ResponseEntity<String> updateStockedProduct (@RequestBody StockedProductsDTO updatedStockedProducts){
         String response = stockedProductService.updateStockedProduct(updatedStockedProducts);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @GetMapping("/getCloseExpirationProducts")
+    public ResponseEntity<Integer> getCloseExpirationProducts(){
+        int closeExpirationProducts = stockedProductService.getCloseExpirationProducts();
+        return new  ResponseEntity<>(closeExpirationProducts, HttpStatus.OK);
+    }
+    @GetMapping("/getNearExpirationProducts")
+    public ResponseEntity<Integer> getNEarExpirationProducts(){
+        int nearExpirationProducts = stockedProductService.getNearExpirationProducts();
+        return new  ResponseEntity<>(nearExpirationProducts, HttpStatus.OK);
+    }
+
 
     @GetMapping("/getBills")
     public ResponseEntity<List<Bills>> getBills(){
@@ -141,8 +174,9 @@ public class StaffController {
     }
     @PostMapping("/addBill")
     public ResponseEntity<String> addBills (@RequestBody Bills bill){
+        System.out.println(bill);
           String response = billsService.addBills(bill);
-          return new ResponseEntity<>(response, HttpStatus.OK);
+          return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
 
@@ -154,6 +188,7 @@ public class StaffController {
     }
     @PostMapping("/addSupplier")
     public ResponseEntity<String> addSupplier (@RequestBody Suppliers suppliers){
+        System.out.println(suppliers);
         String response = supplierService.addSupplier(suppliers);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -169,4 +204,57 @@ public class StaffController {
         lends = lendsService.getLends();
         return new  ResponseEntity<>(lends, HttpStatus.OK);
     }
+    @PostMapping("/addLend")
+    public ResponseEntity<String> addLend (@RequestBody Lends lend){
+
+        String response = lendsService.addLend(lend);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    @GetMapping("/getTodayRevenue")
+    public ResponseEntity<Double> getTodayRevenue(){
+       Double todayRevenue = transactionsService.getTodayRevenue();
+       return new  ResponseEntity<>(todayRevenue, HttpStatus.OK);
+
+    }
+    @GetMapping("/getYesterdayRevenue")
+    public ResponseEntity<Double> getYesterdayRevenue(){
+        Double todayRevenue = transactionsService.getYesterdayRevenue();
+        return new  ResponseEntity<>(todayRevenue, HttpStatus.OK);
+
+    }
+    @PostMapping("/registerTransaction")
+    public ResponseEntity<Map<String, String>> registerTransaction (@RequestBody Transactions transactions){
+
+        String response = transactionsService.registerTransaction(transactions);
+        return new ResponseEntity<>(Collections.singletonMap("message" , response), HttpStatus.CREATED);
+    }
+    @GetMapping("/getTransactions")
+    public ResponseEntity<List<Transactions>> getTransactions (){
+
+        List<Transactions> transactions = transactionsService.getTransactions();
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+    @GetMapping("/getDueTotal")
+    public ResponseEntity<Double> getDueTotal (){
+
+        Double total = billsService.getDueTotal();
+        return new ResponseEntity<>(total, HttpStatus.OK);
+    }
+    @GetMapping("/getWeeklyTransactionSummary")
+    public ResponseEntity<HashMap<Integer, List<WeeklyTransactionsDAO>>> getWeeklyTransactionSummary (){
+
+        List<WeeklyTransactionsDAO> thisWeeksTransactions = transactionsService.getWeeklyTransactionSummary(LocalDate.now());
+        List<WeeklyTransactionsDAO> lastWeeksTransactions = transactionsService.getWeeklyTransactionSummary(LocalDate.now().minusDays(5));
+        HashMap<Integer, List<WeeklyTransactionsDAO>> transactionsHashMap = new HashMap<>();
+        transactionsHashMap.put(1,lastWeeksTransactions );
+        transactionsHashMap.put(2,thisWeeksTransactions );
+       return new ResponseEntity<>(transactionsHashMap, HttpStatus.OK);
+    }
+    @GetMapping("/getTodayTransactions")
+    public ResponseEntity<DailyTransactionsDAO> getTodayTransactions (){
+
+        DailyTransactionsDAO dailyTransactionsDAO = transactionsService.getTodayTransactions();
+        return new ResponseEntity<>(dailyTransactionsDAO, HttpStatus.OK);
+    }
+
 }

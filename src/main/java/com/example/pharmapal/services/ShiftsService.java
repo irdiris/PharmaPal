@@ -1,7 +1,7 @@
 package com.example.pharmapal.services;
 
 import com.example.pharmapal.entities.DTOs.ShiftsDTO;
-import com.example.pharmapal.entities.Mappers.ShiftsMapper;
+import com.example.pharmapal.entities.mappers.ShiftsMapper;
 import com.example.pharmapal.entities.Shifts;
 
 import com.example.pharmapal.entities.Staff;
@@ -65,7 +65,7 @@ public class ShiftsService implements ShiftsServiceInterface {
 
         if (staffSet.isEmpty()) {
             // No staff assigned to the shift, safe to delete
-            shiftsRepository.deleteById(shift.getId());
+            shiftsRepository.deleteById(shift.getShiftId());
             return "Shift deleted successfully";
         } else {
             // Remove the shift reference from staff entities
@@ -79,7 +79,7 @@ public class ShiftsService implements ShiftsServiceInterface {
             shiftsRepository.save(shift);
 
             // Now, it should be safe to delete the shift
-            shiftsRepository.deleteById(shift.getId());
+            shiftsRepository.deleteById(shift.getShiftId());
 
             return "Shift deleted successfully. Don't forget to assign the freed staff";
         }
